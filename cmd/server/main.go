@@ -1,13 +1,18 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/sswapnil2/proglog/internal/server"
 )
 
-func main(){
+const (
+	ServerPort string = ":8000"
+)
 
-	server := server.NewHTTPServer(":8000")
-	log.Fatal(server.ListenAndServe())
+func main() {
+	fmt.Println(fmt.Sprintf("Starting server: %s", ServerPort))
+	srv := server.NewHTTPServer(ServerPort)
+	log.Fatal(srv.ListenAndServe())
 }

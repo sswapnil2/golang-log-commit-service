@@ -15,7 +15,7 @@ func NewHTTPServer(addr string) *http.Server {
 	r.HandleFunc("/", httpsrv.handleConsume).Methods("GET")
 
 	return &http.Server{
-		Addr: addr,
+		Addr:    addr,
 		Handler: r,
 	}
 }
@@ -46,7 +46,7 @@ type ConsumeResponse struct {
 	Record Record `json:"record"`
 }
 
-func (s *httpServer) handleProduce (w http.ResponseWriter, r *http.Request) {
+func (s *httpServer) handleProduce(w http.ResponseWriter, r *http.Request) {
 	var req ProducRequest
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -60,7 +60,7 @@ func (s *httpServer) handleProduce (w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res := ProduceResponse{ Offset: off }
+	res := ProduceResponse{Offset: off}
 	err = json.NewEncoder(w).Encode(res)
 
 	if err != nil {
@@ -69,10 +69,10 @@ func (s *httpServer) handleProduce (w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *httpServer) handleConsume(w http.ResponseWriter, r *http.Request){
+func (s *httpServer) handleConsume(w http.ResponseWriter, r *http.Request) {
 	var req ConsumeRequest
 
-	if err := json.NewDecoder(r.Body).Decode(&req); err != nil{
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -82,12 +82,12 @@ func (s *httpServer) handleConsume(w http.ResponseWriter, r *http.Request){
 		return
 	}
 
-	if (err != nil){
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	res := ConsumeResponse {
+	res := ConsumeResponse{
 		Record: record,
 	}
 	err = json.NewEncoder(w).Encode(res)
